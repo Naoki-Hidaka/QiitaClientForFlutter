@@ -18,5 +18,5 @@ class ArticleListDataStore {
   }
 }
 
-final String BASE_URL = DotEnv().env["END_POINT"];
+final String BASE_URL = "https://qiita.com/api/v2/";
 final String ACCESS_TOKEN = DotEnv().env["ACCESS_TOKEN"];
