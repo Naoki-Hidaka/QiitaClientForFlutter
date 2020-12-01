@@ -4,14 +4,14 @@ import 'package:qiita_client/domain/entity/Article.dart';
 class ArticleListRepository {
   final ArticleListDataStore articleListDataStore = ArticleListDataStore();
 
-  Future<List<Article>> fetchArticleList() async {
+  void fetchArticleList(
+      String tag, Function(List<Article>) callback, Function fallback) async {
     final response =
-        await articleListDataStore.fetchArticleList("tags/Android/items");
-
+        await articleListDataStore.fetchArticleList("tags/$tag/items");
     if (response.statusCode == 200) {
-      return ArticleListFactory.create(response.body);
+      callback(ArticleListFactory.create(response.body));
     } else {
-      throw Exception("failed to load Article");
+      fallback();
     }
   }
 }
