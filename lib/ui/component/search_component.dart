@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qiita_client/bloc/ArticleBloc.dart';
 import 'package:qiita_client/bloc/ArticleListProvider.dart';
 import 'package:qiita_client/ui/component/topPage/top_page_component.dart';
@@ -67,9 +68,14 @@ Widget maxWidthButton(
   return Padding(
     child: RaisedButton(
       onPressed: () {
-        Navigator.pop(context);
-        bloc.fetchArticle(() => showErrorDialog(context, bloc.fetchArticle));
-        bloc.articleListController.add(null);
+        if (bloc.textFieldController.value == "" ||
+            bloc.textFieldController.value == null) {
+          Fluttertoast.showToast(msg: "検索ワードを入力してください");
+        } else {
+          Navigator.pop(context);
+          bloc.fetchArticle(() => showErrorDialog(context, bloc.fetchArticle));
+          bloc.articleListController.add(null);
+        }
       },
       child: Row(
         mainAxisSize: MainAxisSize.max,
