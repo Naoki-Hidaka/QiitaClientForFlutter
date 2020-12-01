@@ -1,16 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:qiita_client/bloc/ArticleBloc.dart';
+import 'package:qiita_client/bloc/ArticleListProvider.dart';
 import 'package:qiita_client/domain/entity/Article.dart';
 import 'package:qiita_client/util/MyColor.dart';
 
 class ListWidget extends StatelessWidget {
-  final ArticleBloc bloc;
-
-  const ListWidget(this.bloc);
-
   @override
   Widget build(BuildContext context) {
+    final bloc = ArticleListProvider.of(context);
+    bloc.fetchArticle(() => showErrorDialog(context, bloc.fetchArticle));
     return StreamBuilder(
         stream: bloc.articleListController.stream,
         builder: (context, AsyncSnapshot<List<Article>> snapShot) {
@@ -101,4 +99,21 @@ class _ListItemWidget extends StatelessWidget {
           color: colorGreen),
     );
   }
+}
+
+void showErrorDialog(BuildContext context, Function fetchFunction) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("エラー"),
+          content: Text("通信エラーが起きました"),
+          actions: [
+            FlatButton(
+              child: Text("リトライ "),
+              onPressed: () => fetchFunction,
+            )
+          ],
+        );
+      });
 }

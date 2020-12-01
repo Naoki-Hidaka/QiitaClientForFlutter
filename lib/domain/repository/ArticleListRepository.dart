@@ -5,9 +5,9 @@ class ArticleListRepository {
   final ArticleListDataStore articleListDataStore = ArticleListDataStore();
 
   void fetchArticleList(
-      Function(List<Article>) callback, Function fallback) async {
+      String tag, Function(List<Article>) callback, Function fallback) async {
     final response =
-        await articleListDataStore.fetchArticleList("tags/Android/items");
+        await articleListDataStore.fetchArticleList("tags/$tag/items");
     if (response.statusCode == 200) {
       callback(ArticleListFactory.create(response.body));
     } else {
