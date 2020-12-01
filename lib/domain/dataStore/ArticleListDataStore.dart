@@ -12,8 +12,7 @@ class ArticleListDataStore {
   }
 
   Future<http.Response> fetchArticleList(String endPoint) async {
-    final response = await http
-        .get("$BASE_URL/$endPoint", headers: {"Authorize": ACCESS_TOKEN});
+    final response = await http.get("$BASE_URL/$endPoint");
     return response;
   }
 }

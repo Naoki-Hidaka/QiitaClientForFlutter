@@ -67,8 +67,9 @@ Widget maxWidthButton(
   return Padding(
     child: RaisedButton(
       onPressed: () {
-        bloc.fetchArticle(() => showErrorDialog(context, bloc.fetchArticle));
         Navigator.pop(context);
+        bloc.fetchArticle(() => showErrorDialog(context, bloc.fetchArticle));
+        bloc.articleListController.add(null);
       },
       child: Row(
         mainAxisSize: MainAxisSize.max,
