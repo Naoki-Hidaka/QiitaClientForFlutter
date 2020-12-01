@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qiita_client/bloc/ArticleBloc.dart';
 import 'package:qiita_client/domain/entity/Article.dart';
-import 'package:qiita_client/util/HexColor.dart';
+import 'package:qiita_client/util/MyColor.dart';
 
 class ListWidget extends StatelessWidget {
   final ArticleBloc bloc;
@@ -85,7 +85,7 @@ class _ListItemWidget extends StatelessWidget {
   }
 
   Widget _tagWidget(Tags tag) {
-    final colorGreen = HexColor("55c500");
+    final colorGreen = primaryGreen;
     return Container(
       margin: EdgeInsets.all(4),
       padding: EdgeInsets.only(top: 8, bottom: 8, right: 16, left: 16),

@@ -7,10 +7,9 @@ class ArticleBloc {
   final ArticleListRepository _articleListRepository = ArticleListRepository();
   final articleListController = StreamController<List<Article>>();
 
-  void fetchArticle() async {
-    final _articleListResponse =
-        await _articleListRepository.fetchArticleList();
-    articleListController.add(_articleListResponse);
+  void fetchArticle(Function fallback) async {
+    _articleListRepository.fetchArticleList(
+        (response) => articleListController.add(response), () => fallback());
   }
 
   void dispose() {
