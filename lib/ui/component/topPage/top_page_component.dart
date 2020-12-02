@@ -41,11 +41,11 @@ class _ListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      child: Center(
-          child: SingleChildScrollView(
-              child: Column(
+      child: SingleChildScrollView(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [_title(), _tagList(), _date()],
-      ))),
+      )),
       padding: EdgeInsets.only(top: 16, bottom: 8),
     );
   }
