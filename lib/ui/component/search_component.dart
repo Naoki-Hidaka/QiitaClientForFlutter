@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qiita_client/bloc/ArticleBloc.dart';
 import 'package:qiita_client/bloc/ArticleListProvider.dart';
-import 'package:qiita_client/ui/component/topPage/top_page_component.dart';
 import 'package:qiita_client/util/MyColor.dart';
 
 Widget searchButton(Function clickAction) {
@@ -73,7 +72,7 @@ Widget maxWidthButton(
           Fluttertoast.showToast(msg: "検索ワードを入力してください");
         } else {
           Navigator.pop(context);
-          bloc.fetchArticle(() => showErrorDialog(context, bloc.fetchArticle));
+          bloc.fetchArticle(context);
           bloc.articleListController.add(null);
         }
       },

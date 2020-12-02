@@ -8,23 +8,35 @@ class ListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = ArticleListProvider.of(context);
-    bloc.fetchArticle(() => showErrorDialog(context, bloc.fetchArticle));
     return StreamBuilder(
         stream: bloc.articleListController.stream,
         builder: (context, AsyncSnapshot<List<Article>> snapShot) {
           if (snapShot.hasData) {
-            return ListView.separated(
-              itemBuilder: (context, position) => _ListItemWidget(
-                  snapShot.data[position].title,
-                  snapShot.data[position].tags,
-                  snapShot.data[position].formatDate),
-              itemCount: snapShot.data.length,
-              separatorBuilder: (context, position) => Divider(
-                color: Colors.grey,
-                thickness: 1,
-              ),
+            return ListView.builder(
+              itemBuilder: (context, position) {
+                if (snapShot.data.length == position) {
+                  bloc.fetchArticle(context);
+                  return Padding(
+                    child: Center(child: CircularProgressIndicator()),
+                    padding: EdgeInsets.all(8),
+                  );
+                } else if (snapShot.data.length < position) {
+                  return null;
+                } else {
+                  return _ListItemWidget(
+                      snapShot.data[position].title,
+                      snapShot.data[position].tags,
+                      snapShot.data[position].formatDate);
+                }
+              },
+              //itemCount: snapShot.data.length + 1,
+              // separatorBuilder: (context, position) => Divider(
+              //   color: Colors.grey,
+              //   thickness: 1,
+              // ),
             );
           } else {
+            bloc.fetchArticle(context);
             return Center(child: CircularProgressIndicator());
           }
         });
@@ -101,7 +113,7 @@ class _ListItemWidget extends StatelessWidget {
   }
 }
 
-void showErrorDialog(BuildContext context, Function fetchFunction) {
+void showErrorDialog(BuildContext context) {
   showDialog(
       context: context,
       builder: (context) {
@@ -111,7 +123,9 @@ void showErrorDialog(BuildContext context, Function fetchFunction) {
           actions: [
             FlatButton(
               child: Text("リトライ "),
-              onPressed: () => fetchFunction,
+              onPressed: () {
+                Navigator.pop(context);
+              },
             )
           ],
         );
